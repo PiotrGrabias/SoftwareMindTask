@@ -1,0 +1,6 @@
+@SoftwareMindTask_HostAddress = http://localhost:5101
+
+GET {{SoftwareMindTask_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
