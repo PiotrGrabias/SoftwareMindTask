@@ -1,6 +1,5 @@
 using AspNetCore.Identity.Mongo.Model;
 using AspNetCore.Identity.Mongo;
-using Microsoft.Extensions.Options;
 using SoftwareMindTask.Entities;
 using SoftwareMindTask.Services;
 using System.Text.Json.Serialization;
@@ -9,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<AuthService>();
 var jwtSecret = builder.Configuration["JwtSecret:Secret"];
 var databaseSettings = builder.Configuration
     .GetSection("ProductNegotiationsDatabase")
@@ -34,6 +34,9 @@ builder.Services.AddSwaggerGen(options =>
         Version = "v1",
         Description = "API for product price negotiations."
     });
+    var xmlFilename = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+    options.IncludeXmlComments(xmlPath);
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
@@ -91,8 +94,6 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty; 
     });
 }
-app.UseRouting();
-
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

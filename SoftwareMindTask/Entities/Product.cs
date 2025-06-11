@@ -1,7 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace SoftwareMindTask.Entities
 {
@@ -11,25 +10,10 @@ namespace SoftwareMindTask.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public string? ProductId { get; set; }
         [Required]
+        [StringLength(100, ErrorMessage = "Name can't be longer than 100 characters")]
         public string Name { get; set; }
         [Required]
-        [Range(0.01, double.MaxValue)]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Price can't be negative")]
         public decimal Price { get; set; }
-        public void ChangePrice(decimal price)
-        {
-            if(price < 0) throw new ArgumentException("Price cannot be negative.");
-            this.Price = price;
-        }
-    }
-    public class ProductDto
-    {
-        [Required]
-        public string Name { get; set; } = null!;
-
-        [Range(0.01, double.MaxValue)]
-        public decimal Price
-        {
-            get; set;
-        }
     }
 }

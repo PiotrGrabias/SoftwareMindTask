@@ -33,8 +33,6 @@ namespace SoftwareMindTask.Services
             var product = await _products.Find(x => x.ProductId == productId).FirstOrDefaultAsync();
             if (product == null) throw new Exception("Product not found");
 
-            product.ChangePrice(newPrice);
-
             await _products.ReplaceOneAsync(x => x.ProductId == productId, product);
         }
     }

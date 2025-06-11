@@ -10,20 +10,16 @@ namespace SoftwareMindTask.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public string NegotiationId { get; set; }
         [Required]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string ProductId { get; set; } 
-        public List<decimal> PricesNegotiated { get; set; }
+        public List<decimal> PricesNegotiated { get; set; } = new List<decimal>();
         [Required]
+        [Range(0.01, double.MaxValue, ErrorMessage = "Price can't be negative")]
         public decimal Price { get; set; }
         public NegotiationStatus Status { get; set; } = NegotiationStatus.Pending;
-        public DateTime NegotiationDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-    }
-    public class NegotiationDto
-    {
-        [Required]
-        public string ProductId { get; set; }
-        [Required]
-        public decimal Price { get; set; }
 
     }
     public enum NegotiationStatus
